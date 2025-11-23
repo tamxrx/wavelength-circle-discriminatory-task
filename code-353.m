@@ -5,7 +5,7 @@ n_trials_per_wv = 20;
 short_colour = [0 0 1]; % blue
 medium_colour = [0 1 0]; % green
 long_colour = [1 0 0]; % red
-bg_color = [1 1 1];
+bg_color = [1 1 1]; % background color
 original_circle_size = 120;
 
 
@@ -33,6 +33,7 @@ resp_long = nan(1, n_trials_per_wv);
 %%  beginning of trial
 figure(1), clf, hold on
 
+% Setup the figure
 set(gcf, 'Units', 'Normalized', 'OuterPosition', [0 0 1 1],'Toolbar', 'none', 'Menu', 'none','Color',bg_color) % Position is [hrz, vrt, height, width] 
 set(gca, 'Color', bg_color, 'xlim', [-2 2], 'ylim', [-1 1])
 axis off
@@ -41,56 +42,64 @@ axis off
 left = plot(-1, 0, 'o', 'MarkerSize', original_circle_size, 'MarkerEdgeColor', 'none', 'MarkerFaceColor', bg_color); hold on
 right = plot( 1, 0, 'o', 'MarkerSize', original_circle_size, 'MarkerEdgeColor', 'none', 'MarkerFaceColor', bg_color);
 
+% Participant instructions
+instructions = text(0,0,['Indicate which circle is larger by pressing 1 ' ...
+    '(left) or 2 (right) on the keyboard. ' newline 'Press any key to ' ...
+    'begin the trial'],'HorizontalAlignment', ...
+    'center', 'FontSize',20, 'Color', [0 0 0]);
 
-instructions = text(0,0,['Indicate which circle is larger by pressing 1 (left) or 2 (right) on the keyboard. ' ...
-    newline 'Press any key to begin the trial'], ...
-    'HorizontalAlignment','center', 'FontSize',20, 'Color', [0 0 0]);
 waitforbuttonpress
 delete(instructions)
 
-short_order = repmat('S',1,20);
+% Setup the random trial order
+short_order = repmat('S',1,20); 
 med_order = repmat('M',1, 20);
 long_order = repmat('L',1,20);
 wavelength_order = [short_order med_order long_order];
+% Array of S,M,L characters to represent the order
 trial_order = wavelength_order(randperm(length(wavelength_order)));
 
 %% trial for short wavelength
 
+% individual indices
 s_counter=1;
 m_counter=1;
 l_counter=1;
+
+% Experiment
 for i = 1:length(trial_order)
 
     fix = text(0,0, '+', 'HorizontalAlignment','center','FontSize',50);
 
     if trial_order(i) == 'S'
-        if correct_short(s_counter) == 1
+        if correct_short(s_counter) == 1 % larger circle on left
             set(left,'MarkerFaceColor',short_colour, 'MarkerSize', size_short(s_counter))
             set(right,'MarkerFaceColor',short_colour,'MarkerSize', original_circle_size)
-        else
+        else  % larger circle on right
             set(right,'MarkerFaceColor',short_colour, 'MarkerSize', size_short(s_counter))
             set(left,'MarkerFaceColor',short_colour, 'MarkerSize',original_circle_size)
         end
 
     elseif trial_order(i) == 'M'
-        if correct_medium(m_counter) == 1
+        if correct_medium(m_counter) == 1 % left
             set(left,'MarkerFaceColor',medium_colour, 'MarkerSize', size_medium(m_counter))
             set(right,'MarkerFaceColor',medium_colour,'MarkerSize', original_circle_size)
-        else
+        else % right
             set(right,'MarkerFaceColor',medium_colour, 'MarkerSize', size_medium(m_counter))
             set(left,'MarkerFaceColor',medium_colour, 'MarkerSize',original_circle_size)
         end
 
      elseif trial_order(i) == 'L'
-        if correct_long(l_counter) == 1
+        if correct_long(l_counter) == 1 % left
             set(left,'MarkerFaceColor',long_colour, 'MarkerSize', size_long(l_counter))
             set(right,'MarkerFaceColor',long_colour,'MarkerSize', original_circle_size)
-        else
+        else % right
             set(right,'MarkerFaceColor',long_colour, 'MarkerSize', size_long(l_counter))
             set(left,'MarkerFaceColor',long_colour, 'MarkerSize',original_circle_size)
         end
 
     end
+    
     pause(.5)
     set(left,'MarkerFaceColor',bg_color)
     set(right,'MarkerFaceColor',bg_color)
@@ -115,12 +124,7 @@ for i = 1:length(trial_order)
         l_counter = l_counter+1;
     end
 
-    % if resp_short(i) == correct_short(i)
-    %     disp('It was correct')
-    % end
-
     delete(input_text)
-    
     
     pause(.5)
     clc
@@ -142,45 +146,39 @@ nF_long=0;
 for j = 1:n_trials_per_wv
 
     % short trial: if target left & response is left
-    if correct_short(j) == 1
-        if resp_short(j) == 1
-            nH_short = nH_short + 1;
-        end
+    if correct_short(j) == 1 && resp_short(j) == 1
+        nH_short = nH_short + 1;
+    elseif correct_short(j) == 2 && resp_short(j) == 2
+        nH_short = nH_short +1;
 
    % short trial: if target is right & response is left
-    elseif correct_short(j) == 2
-        if resp_short(j) == 1
-            nF_short = nF_short+1;
-        end
+    elseif correct_short(j) == 2 && resp_short(j) == 1
+        nF_short = nF_short+1;
 
     end
 
      % medium trial: if target left & response is left
-    if correct_medium(j) == 1
-        if resp_medium(j) == 1
-            nH_medium = nH_medium + 1;
-        end
+    if correct_medium(j) == 1 && resp_medium(j) == 1
+         nH_medium = nH_medium + 1;
+        
+    elseif correct_medium(j) == 2 && resp_medium(j) == 2
+        nH_medium = nH_medium +1;
 
    % medium trial: if target is right & response is left
-    elseif correct_medium(j) == 2
-        if resp_medium(j) == 1
-            nF_medium = nF_medium+1;
-        end
+    elseif correct_medium(j) == 2 && resp_medium(j) == 1
+        nF_medium = nF_medium+1;
 
     end
 
     % long trial: if target left & response is left
-    if correct_long(j) == 1 
-        if resp_long(j) == 1
-            nH_long = nH_long + 1;
-        end
+    if correct_long(j) == 1 && resp_long(j) == 1
+        nH_long = nH_long + 1;
 
+    elseif correct_long(j) == 2 && resp_long(j) == 2
+        nH_long = nH_long +1;
    % long trial: if target is right & response is left
-    elseif correct_long(j) == 2 
-        if resp_long(j) == 1
-            nF_long = nF_long+1;
-        end
-
+    elseif correct_long(j) == 2 && resp_long(j) == 1
+        nF_long = nF_long+1;
     end
 end
 
@@ -194,6 +192,7 @@ pF_medium= nF_medium/n_trials_per_wv;
 pH_long = nH_long/n_trials_per_wv;
 pF_long= nF_long/n_trials_per_wv;
 
+% palamedes
 palamedes_dir = '/Users/tamarabgreco/Documents/MATLAB/psyc-353/tutorials/Palamedes1_10_11/Palamedes';
 addpath(palamedes_dir)
 
