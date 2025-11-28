@@ -178,6 +178,7 @@ end
 
 save('circle_data.mat')
 %% analysis for short
+%load('circle_data.mat')
 nH_short=0; % hit
 nF_short=0; % false alarm
 
@@ -197,7 +198,7 @@ for j = 1:n_trials_per_wv
         nH_short = nH_short +1;
 
    % short trial: if target is right & response is left
-    elseif correct_short(j) == 2 && resp_short(j) == 1
+    elseif correct_short(j) ~= resp_short(j)
         nF_short = nF_short+1;
 
     end
@@ -210,9 +211,8 @@ for j = 1:n_trials_per_wv
         nH_medium = nH_medium +1;
 
    % medium trial: if target is right & response is left
-    elseif correct_medium(j) == 2 && resp_medium(j) == 1
+    elseif correct_medium(j) ~= resp_medium(j) 
         nF_medium = nF_medium+1;
-
     end
 
     % long trial: if target left & response is left
@@ -222,7 +222,7 @@ for j = 1:n_trials_per_wv
     elseif correct_long(j) == 2 && resp_long(j) == 2
         nH_long = nH_long +1;
    % long trial: if target is right & response is left
-    elseif correct_long(j) == 2 && resp_long(j) == 1
+    elseif correct_long(j) ~= resp_long(j)
         nF_long = nF_long+1;
     end
 end
