@@ -71,11 +71,11 @@ for y = 1:3
         set(right,'MarkerFaceColor',temp_arr_col{temp_col},'MarkerSize', original_circle_size)
     end
     
-    pause(.5)
+    pause(.3)
     set(left,'MarkerFaceColor',bg_color)
     set(right,'MarkerFaceColor',bg_color)
     delete(fix)
-    pause(.3)
+    %pause(.3)
     input_text = text(0,0,'Which circle is larger? (1/2)','HorizontalAlignment','center', 'FontSize',20, 'Color', [0 0 0]);
     
     waitforbuttonpress
@@ -151,7 +151,7 @@ for i = 1:length(trial_order)
     delete(fix)
 
     % participant input
-    pause(.3)
+    %pause(.3)
     input_text = text(0,0,'Which circle is larger? (1/2)','HorizontalAlignment','center', 'FontSize',20, 'Color', [0 0 0]);
 
     waitforbuttonpress
