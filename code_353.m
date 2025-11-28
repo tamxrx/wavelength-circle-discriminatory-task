@@ -30,6 +30,7 @@ resp_long = nan(1, n_trials_per_wv);
 
 
 
+
 %%  beginning of trial
 figure(1), clf, hold on
 
@@ -42,6 +43,40 @@ axis off
 left = plot(-1, 0, 'o', 'MarkerSize', original_circle_size, 'MarkerEdgeColor', 'none', 'MarkerFaceColor', bg_color); hold on
 right = plot( 1, 0, 'o', 'MarkerSize', original_circle_size, 'MarkerEdgeColor', 'none', 'MarkerFaceColor', bg_color);
 
+%% test trial
+test_instr = text(0,0,['This is a trial to get you familiar with the task.' ...
+    newline 'Indicate which circle is larger by pressing 1 ' ...
+    '(left) or 2 (right) on the keyboard. ' newline 'Press any key to ' ...
+    'begin the trial'],'HorizontalAlignment', ...
+    'center', 'FontSize',20, 'Color', [0 0 0]);
+delete(test_instr)
+
+temp_arr_col = ['short_colour' 'medium_colour' 'long_colour'];
+temp_arr_size = [1.34 1.25 1.45];
+for y = 1:3
+    targ_side = randi([1 2]);
+    % right larger
+    set(right,'MarkerFaceColor',short_colour, 'MarkerSize', temp_arr(y))
+    set(left,'MarkerFaceColor',short_colour, 'MarkerSize',original_circle_size)
+    % left larger
+    set(left,'MarkerFaceColor',short_colour, 'MarkerSize', temp_arr_size(y))
+    set(right,'MarkerFaceColor',short_colour,'MarkerSize', original_circle_size)
+    
+    pause(.5)
+    set(left,'MarkerFaceColor',bg_color)
+    set(right,'MarkerFaceColor',bg_color)
+    delete(fix)
+    pause(.3)
+    input_text = text(0,0,'Which circle is larger? (1/2)','HorizontalAlignment','center', 'FontSize',20, 'Color', [0 0 0]);
+    
+    waitforbuttonpress
+
+end
+
+
+
+
+%% beginning of real trial
 % Participant instructions
 instructions = text(0,0,['Indicate which circle is larger by pressing 1 ' ...
     '(left) or 2 (right) on the keyboard. ' newline 'Press any key to ' ...
