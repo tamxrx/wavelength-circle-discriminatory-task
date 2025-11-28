@@ -2,9 +2,9 @@ clear, clc, close all
 
 
 n_trials_per_wv = 20;
-short_colour = [0 0 .8]; % blue
-medium_colour = [0 .8 0]; % green
-long_colour = [.8 0 0]; % red
+short_colour = [0 0 1]; % blue
+medium_colour = [0 1 0]; % green
+long_colour = [1 0 0]; % red
 bg_color = [1 1 1]; % background color
 original_circle_size = 120;
 
@@ -176,7 +176,7 @@ for i = 1:length(trial_order)
    
 end
 
-
+save('circle_data.mat')
 %% analysis for short
 nH_short=0; % hit
 nF_short=0; % false alarm
@@ -241,8 +241,8 @@ pF_long= nF_long/n_trials_per_wv;
 palamedes_dir = '/Users/tamarabgreco/Documents/MATLAB/psyc-353/tutorials/Palamedes1_10_11/Palamedes';
 addpath(palamedes_dir)
 
-[dp_short, C_short, lnB_short, Pc_short] = PAL_SDT_1AFC_PHFtoDP([pH_short pF_short]);
+[dp_short, C_short, lnB_short, Pc_short] = PAL_SDT_2AFC_PHFtoDP([pH_short pF_short]);
 
-[dp_medium, C_medium, lnB_medium, Pc_medium] = PAL_SDT_1AFC_PHFtoDP([pH_medium pF_medium]);
+[dp_medium, C_medium, lnB_medium, Pc_medium] = PAL_SDT_2AFC_PHFtoDP([pH_medium pF_medium]);
 
-[dp_long, C_long, lnB_long, Pc_long] = PAL_SDT_1AFC_PHFtoDP([pH_long pF_long]);
+[dp_long, C_long, lnB_long, Pc_long] = PAL_SDT_2AFC_PHFtoDP([pH_long pF_long]);
