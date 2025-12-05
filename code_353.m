@@ -1,6 +1,6 @@
 clear, clc, close all
 
-
+%% setups
 n_trials_per_wv = 20;
 short_colour = [0 0 1]; % blue
 medium_colour = [0 1 0]; % green
@@ -10,8 +10,6 @@ original_circle_size = 120;
 
 
 % list of sizes relative to target
-%sizes = [1.05 1.07 1.10 1.13 1.15 1.17 1.20 1.23 1.25 1.27 1.30 1.33 1.35 1.37 1.40 1.43 1.45 1.47 1.50 1.55 ];
-%sizes = [1.02 1.04 1.06 1.08 1.10 1.12 1.14 1.16 1.18 1.20 1.22 1.24 1.26 1.28 1.30 1.32 1.34 1.36 1.38 1.40 ];
 sizes = [1.01 1.02 1.03 1.04 1.06 1.07 1.09 1.10 1.11 1.12 1.13 1.14 1.15 1.16 1.17 1.18 1.19 1.20 1.21 1.22 ];
 
 % initialize correct array (with pre determined left/rights)
@@ -151,7 +149,6 @@ for i = 1:length(trial_order)
     delete(fix)
 
     % participant input
-    %pause(.3)
     input_text = text(0,0,'Which circle is larger? (1/2)','HorizontalAlignment','center', 'FontSize',20, 'Color', [0 0 0]);
 
     waitforbuttonpress
